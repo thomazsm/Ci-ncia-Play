@@ -81,7 +81,7 @@ export function Biomes() {
         ))}
       </div>
 
-      <div className="w-full md:w-2/3 bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 relative overflow-hidden">
+      <div className="w-full md:w-2/3 bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 relative overflow-y-auto">
         <div className={`absolute top-0 left-0 w-full h-2 ${selected.color}`} />
         
         <AnimatePresence mode="wait">
@@ -91,7 +91,7 @@ export function Biomes() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.2 }}
-            className="h-full flex flex-col"
+            className="h-full flex flex-col min-h-min"
           >
             <h2 className="text-3xl font-bold mb-4 text-slate-800 dark:text-slate-100">{selected.name}</h2>
             <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">

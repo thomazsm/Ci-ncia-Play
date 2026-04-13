@@ -35,25 +35,25 @@ function EarthModel() {
     <group ref={groupRef} rotation={[0.4, 0, 0]}>
       {/* Núcleo Interno */}
       <Layer radius={1} color="#fef08a" emissiveIntensity={2} />
-      <Text position={[0, 1.2, 0]} fontSize={0.3} color="white" font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-EkCc.woff">
+      <Text position={[0, 1.2, 0]} fontSize={0.3} color="white">
         Núcleo Interno
       </Text>
 
       {/* Núcleo Externo */}
       <Layer radius={2} color="#fb923c" opacity={0.7} transparent emissiveIntensity={1} />
-      <Text position={[0, 2.2, 0]} fontSize={0.3} color="white" font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-EkCc.woff">
+      <Text position={[0, 2.2, 0]} fontSize={0.3} color="white">
         Núcleo Externo
       </Text>
 
       {/* Manto */}
       <Layer radius={4} color="#ef4444" opacity={0.6} transparent emissiveIntensity={0.5} />
-      <Text position={[0, 4.2, 0]} fontSize={0.3} color="white" font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-EkCc.woff">
+      <Text position={[0, 4.2, 0]} fontSize={0.3} color="white">
         Manto
       </Text>
 
       {/* Crosta */}
       <Layer radius={4.2} color="#22c55e" opacity={0.9} transparent />
-      <Text position={[0, 4.6, 0]} fontSize={0.3} color="white" font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-EkCc.woff">
+      <Text position={[0, 4.6, 0]} fontSize={0.3} color="white">
         Crosta (Litosfera)
       </Text>
     </group>
