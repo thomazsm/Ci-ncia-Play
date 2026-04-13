@@ -113,11 +113,13 @@ export function AssessmentView() {
   };
 
   const openInNewTab = (mode: 'full' | 'half') => {
-    // Em vez de abrir nova aba (que causa erro 404 no Netlify sem configuração),
-    // vamos usar a impressão direta na mesma página, mas com um pequeno truque
-    // para garantir que o DOM atualizou.
     setShowPrintModal(false);
-    setPrintMode(mode);
+    const url = new URL(window.location.href);
+    url.searchParams.set('print', mode);
+    if (showAnswerKey) {
+      url.searchParams.set('answers', 'true');
+    }
+    window.open(url.toString(), '_blank');
   };
 
   if (!grade || !assessment) {
