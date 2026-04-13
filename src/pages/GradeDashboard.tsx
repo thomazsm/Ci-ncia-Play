@@ -168,7 +168,7 @@ export function GradeDashboard() {
                     className="rounded-full hover:bg-primary/10 text-primary"
                     onClick={(e) => {
                       e.preventDefault();
-                      window.open(`/grade/${grade.id}/assessment/${bimester}?print=full`, '_blank');
+                      window.open(`/grade/${grade.id}/assessment/${bimester}`, '_self');
                     }}
                   >
                     <Printer className="w-4 h-4 mr-2" />

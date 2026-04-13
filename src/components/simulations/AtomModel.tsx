@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Trail, Float, Stars, Points, PointMaterial } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 const ELEMENTS = [
   { symbol: 'H', name: 'Hidrogênio', protons: 1, neutrons: 0, electrons: 1, color: '#ef4444' },
@@ -146,8 +147,7 @@ export function AtomModel() {
     <div className="flex flex-col h-full bg-slate-950 rounded-xl overflow-hidden relative">
       {/* Element Selector UI */}
       <div className="absolute top-4 left-4 z-10 flex flex-col gap-4">
-        <div className="bg-slate-900/80 p-4 rounded-lg backdrop-blur-md border border-slate-700 shadow-2xl">
-          <h3 className="font-bold text-white mb-1">Laboratório Atômico</h3>
+        <SimulationInfoCard title="Laboratório Atômico">
           <p className="text-xs text-slate-400 mb-3">Selecione um elemento para visualizar sua estrutura.</p>
           
           <div className="grid grid-cols-4 gap-2 mb-4">
@@ -193,7 +193,7 @@ export function AtomModel() {
           >
             {showCloud ? 'Ocultar Nuvem Quântica' : 'Mostrar Nuvem Quântica'}
           </button>
-        </div>
+        </SimulationInfoCard>
       </div>
 
       <Canvas camera={{ position: [0, 8, 15], fov: 45 }}>

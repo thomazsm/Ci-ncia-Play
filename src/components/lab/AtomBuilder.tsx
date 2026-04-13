@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 const elementsData = [
   { p: 1, name: 'Hidrogênio (H)' },
@@ -24,11 +25,9 @@ export function AtomBuilder() {
   const mass = protons + neutrons;
 
   return (
-    <div className="flex flex-col md:flex-row min-h-full p-6 gap-6 bg-slate-50 dark:bg-slate-900 rounded-2xl">
-      <div className="w-full md:w-1/3 flex flex-col gap-6">
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border shadow-sm">
-          <h3 className="text-xl font-bold mb-4 text-slate-800 dark:text-slate-100">Controles</h3>
-          
+    <div className="flex flex-col md:flex-row min-h-full p-6 gap-6 bg-slate-50 dark:bg-slate-900 rounded-2xl relative">
+      <div className="absolute top-4 left-4 z-10 w-full max-w-sm pr-8">
+        <SimulationInfoCard title="Construtor de Átomos">
           <div className="space-y-6">
             <div>
               <div className="flex justify-between mb-2">
@@ -65,29 +64,26 @@ export function AtomBuilder() {
                 <button onClick={() => setElectrons(Math.min(10, electrons + 1))} className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200"><Plus className="w-4 h-4" /></button>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border shadow-sm flex-1">
-          <h3 className="text-xl font-bold mb-4 text-slate-800 dark:text-slate-100">Propriedades</h3>
-          <div className="space-y-4">
-            <div className="flex justify-between items-center border-b pb-2">
-              <span className="text-muted-foreground">Elemento</span>
-              <span className="font-bold text-lg">{element.name}</span>
-            </div>
-            <div className="flex justify-between items-center border-b pb-2">
-              <span className="text-muted-foreground">Massa Atômica</span>
-              <span className="font-bold text-lg">{mass}</span>
-            </div>
-            <div className="flex justify-between items-center border-b pb-2">
-              <span className="text-muted-foreground">Carga Líquida</span>
-              <span className={`font-bold text-lg ${charge > 0 ? 'text-red-500' : charge < 0 ? 'text-blue-500' : 'text-emerald-500'}`}>
-                {charge > 0 ? `+${charge}` : charge} {charge === 0 && '(Neutro)'}
-                {charge !== 0 && '(Íon)'}
-              </span>
+            <div className="pt-4 border-t border-slate-200 dark:border-slate-700 space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Elemento</span>
+                <span className="font-bold text-lg">{element.name}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Massa Atômica</span>
+                <span className="font-bold text-lg">{mass}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Carga Líquida</span>
+                <span className={`font-bold text-lg ${charge > 0 ? 'text-red-500' : charge < 0 ? 'text-blue-500' : 'text-emerald-500'}`}>
+                  {charge > 0 ? `+${charge}` : charge} {charge === 0 && '(Neutro)'}
+                  {charge !== 0 && '(Íon)'}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
+        </SimulationInfoCard>
       </div>
 
       <div className="flex-1 bg-slate-900 rounded-xl relative overflow-hidden flex items-center justify-center border-4 border-slate-800 min-h-[400px]">

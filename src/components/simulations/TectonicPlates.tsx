@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Text } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 function Plates({ offset }: { offset: number }) {
   // offset ranges from -1.5 (convergent) to 2 (divergent)
@@ -68,18 +69,20 @@ export function TectonicPlates() {
 
   return (
     <div className="flex flex-col h-full bg-slate-950 rounded-xl overflow-hidden relative">
-      <div className="absolute top-4 left-4 right-4 z-10 bg-slate-900/80 p-4 rounded-lg backdrop-blur-md border border-slate-700 shadow-2xl">
-        <label className="flex justify-between text-sm font-bold text-slate-200 mb-2">
-          <span className="text-red-400">Convergente (Colisão)</span>
-          <span className="text-orange-400">Divergente (Separação)</span>
-        </label>
-        <input 
-          type="range" 
-          min="-1.5" max="2" step="0.05"
-          value={offset} 
-          onChange={(e) => setOffset(Number(e.target.value))}
-          className="w-full accent-orange-500"
-        />
+      <div className="absolute top-4 left-4 z-10 w-full max-w-md pr-8">
+        <SimulationInfoCard title="Placas Tectônicas">
+          <label className="flex justify-between text-sm font-bold text-slate-200 mb-2">
+            <span className="text-red-400">Convergente (Colisão)</span>
+            <span className="text-orange-400">Divergente (Separação)</span>
+          </label>
+          <input 
+            type="range" 
+            min="-1.5" max="2" step="0.05"
+            value={offset} 
+            onChange={(e) => setOffset(Number(e.target.value))}
+            className="w-full accent-orange-500"
+          />
+        </SimulationInfoCard>
       </div>
       
       <div className="flex-1">

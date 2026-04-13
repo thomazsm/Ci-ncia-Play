@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 function AbstractOrgan({ position, color, scale, speed = 1 }: any) {
   const ref = useRef<THREE.Mesh>(null);
@@ -49,20 +50,23 @@ export function XRayBody() {
 
   return (
     <div className="flex flex-col md:flex-row min-h-full bg-slate-900 relative">
-      <div className="absolute top-4 left-4 z-10 bg-slate-800/80 p-4 rounded-xl backdrop-blur border border-slate-700 flex flex-col gap-3">
-        <h3 className="font-bold text-white mb-2">Sistemas do Corpo</h3>
-        <label className="flex items-center gap-3 text-slate-200 cursor-pointer hover:text-white transition-colors">
-          <input type="checkbox" checked={showSkeleton} onChange={(e) => setShowSkeleton(e.target.checked)} className="w-5 h-5 accent-slate-400" />
-          Esquelético
-        </label>
-        <label className="flex items-center gap-3 text-slate-200 cursor-pointer hover:text-white transition-colors">
-          <input type="checkbox" checked={showRespiratory} onChange={(e) => setShowRespiratory(e.target.checked)} className="w-5 h-5 accent-blue-400" />
-          Respiratório
-        </label>
-        <label className="flex items-center gap-3 text-slate-200 cursor-pointer hover:text-white transition-colors">
-          <input type="checkbox" checked={showDigestive} onChange={(e) => setShowDigestive(e.target.checked)} className="w-5 h-5 accent-orange-400" />
-          Digestório
-        </label>
+      <div className="absolute top-4 left-4 z-10 w-full max-w-xs pr-8">
+        <SimulationInfoCard title="Sistemas do Corpo">
+          <div className="flex flex-col gap-3">
+            <label className="flex items-center gap-3 text-slate-200 cursor-pointer hover:text-white transition-colors">
+              <input type="checkbox" checked={showSkeleton} onChange={(e) => setShowSkeleton(e.target.checked)} className="w-5 h-5 accent-slate-400" />
+              Esquelético
+            </label>
+            <label className="flex items-center gap-3 text-slate-200 cursor-pointer hover:text-white transition-colors">
+              <input type="checkbox" checked={showRespiratory} onChange={(e) => setShowRespiratory(e.target.checked)} className="w-5 h-5 accent-blue-400" />
+              Respiratório
+            </label>
+            <label className="flex items-center gap-3 text-slate-200 cursor-pointer hover:text-white transition-colors">
+              <input type="checkbox" checked={showDigestive} onChange={(e) => setShowDigestive(e.target.checked)} className="w-5 h-5 accent-orange-400" />
+              Digestório
+            </label>
+          </div>
+        </SimulationInfoCard>
       </div>
 
       <div className="flex-1 relative min-h-[500px] w-full">

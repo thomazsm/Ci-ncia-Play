@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, MeshDistortMaterial, Float, Text } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 const PHASES = [
   { name: 'Interfase', description: 'A célula cresce e o DNA é duplicado.', color: '#22c55e' },
@@ -170,46 +171,47 @@ export function CellDivision() {
 
   return (
     <div className="flex flex-col h-full bg-slate-950 rounded-xl overflow-hidden relative">
-      <div className="absolute top-4 left-4 z-10 bg-slate-900/80 p-6 rounded-lg backdrop-blur-md border border-slate-700 shadow-2xl max-w-sm">
-        <h3 className="font-bold text-white text-xl mb-2">Simulação de Mitose</h3>
-        <div className="mb-4">
-          <span className="inline-block px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
-            Fase: {PHASES[phase].name}
-          </span>
-          <p className="text-sm text-slate-300 leading-relaxed">
-            {PHASES[phase].description}
-          </p>
-        </div>
-        
-        <div className="flex gap-2 mb-6">
-          {PHASES.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setPhase(i)}
-              className={`flex-1 h-2 rounded-full transition-all ${
-                phase === i ? 'bg-emerald-500' : 'bg-slate-700 hover:bg-slate-600'
-              }`}
-              title={PHASES[i].name}
-            />
-          ))}
-        </div>
+      <div className="absolute top-4 left-4 z-10 w-full max-w-sm pr-8">
+        <SimulationInfoCard title="Simulação de Mitose">
+          <div className="mb-4">
+            <span className="inline-block px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
+              Fase: {PHASES[phase].name}
+            </span>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              {PHASES[phase].description}
+            </p>
+          </div>
+          
+          <div className="flex gap-2 mb-6">
+            {PHASES.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setPhase(i)}
+                className={`flex-1 h-2 rounded-full transition-all ${
+                  phase === i ? 'bg-emerald-500' : 'bg-slate-700 hover:bg-slate-600'
+                }`}
+                title={PHASES[i].name}
+              />
+            ))}
+          </div>
 
-        <div className="flex justify-between gap-4">
-          <button
-            onClick={() => setPhase((p) => Math.max(0, p - 1))}
-            disabled={phase === 0}
-            className="flex-1 py-2 px-4 rounded bg-slate-800 text-white font-bold hover:bg-slate-700 disabled:opacity-50 transition-colors"
-          >
-            Anterior
-          </button>
-          <button
-            onClick={() => setPhase((p) => Math.min(PHASES.length - 1, p + 1))}
-            disabled={phase === PHASES.length - 1}
-            className="flex-1 py-2 px-4 rounded bg-emerald-500 text-white font-bold hover:bg-emerald-600 disabled:opacity-50 transition-colors"
-          >
-            Próximo
-          </button>
-        </div>
+          <div className="flex justify-between gap-4">
+            <button
+              onClick={() => setPhase((p) => Math.max(0, p - 1))}
+              disabled={phase === 0}
+              className="flex-1 py-2 px-4 rounded bg-slate-800 text-white font-bold hover:bg-slate-700 disabled:opacity-50 transition-colors"
+            >
+              Anterior
+            </button>
+            <button
+              onClick={() => setPhase((p) => Math.min(PHASES.length - 1, p + 1))}
+              disabled={phase === PHASES.length - 1}
+              className="flex-1 py-2 px-4 rounded bg-emerald-500 text-white font-bold hover:bg-emerald-600 disabled:opacity-50 transition-colors"
+            >
+              Próxima
+            </button>
+          </div>
+        </SimulationInfoCard>
       </div>
 
       <Canvas camera={{ position: [0, 0, 10], fov: 45 }}>

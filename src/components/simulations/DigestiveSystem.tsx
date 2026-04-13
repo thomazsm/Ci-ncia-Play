@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Text, MeshDistortMaterial, Float } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 function Organ({ position, args, color, distort, speed, label, labelPos, progressRef, pathStart, pathEnd, isDigesting }: any) {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -172,21 +173,22 @@ export function DigestiveSystem() {
 
   return (
     <div className="flex flex-col h-full bg-slate-950 rounded-xl overflow-hidden relative">
-      <div className="absolute top-4 left-4 z-10 bg-slate-900/80 p-4 rounded-lg backdrop-blur-md border border-slate-700 shadow-2xl">
-        <h3 className="font-bold text-white mb-2">Sistema Digestório</h3>
-        <p className="text-xs text-slate-400 mb-4 max-w-[200px]">
-          Observe o movimento peristáltico e o caminho do bolo alimentar. Os órgãos reagem dinamicamente à passagem do alimento.
-        </p>
-        <button 
-          onClick={() => setIsDigesting(!isDigesting)}
-          className={`w-full py-2 px-4 rounded-lg font-bold transition-all shadow-lg ${
-            isDigesting 
-            ? 'bg-red-500 hover:bg-red-600 text-white shadow-red-500/20' 
-            : 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/20'
-          }`}
-        >
-          {isDigesting ? 'Parar Digestão' : 'Iniciar Digestão'}
-        </button>
+      <div className="absolute top-4 left-4 z-10">
+        <SimulationInfoCard title="Sistema Digestório">
+          <p className="text-xs text-slate-400 mb-4 max-w-[200px]">
+            Observe o movimento peristáltico e o caminho do bolo alimentar. Os órgãos reagem dinamicamente à passagem do alimento.
+          </p>
+          <button 
+            onClick={() => setIsDigesting(!isDigesting)}
+            className={`w-full py-2 px-4 rounded-lg font-bold transition-all shadow-lg ${
+              isDigesting 
+              ? 'bg-red-500 hover:bg-red-600 text-white shadow-red-500/20' 
+              : 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/20'
+            }`}
+          >
+            {isDigesting ? 'Parar Digestão' : 'Iniciar Digestão'}
+          </button>
+        </SimulationInfoCard>
       </div>
 
       <Canvas camera={{ position: [0, 0, 12], fov: 45 }}>

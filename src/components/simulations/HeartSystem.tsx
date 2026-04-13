@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, MeshDistortMaterial, Float, Points, PointMaterial, Text } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 function BloodParticles({ count = 100, color = "#ff0000", speed = 1, radius = 2, offset = 0 }: any) {
   const points = useMemo(() => {
@@ -125,41 +126,42 @@ export function HeartSystem() {
 
   return (
     <div className="flex flex-col h-full bg-slate-950 rounded-xl overflow-hidden relative">
-      <div className="absolute top-4 left-4 z-10 bg-slate-900/80 p-6 rounded-lg backdrop-blur-md border border-slate-700 shadow-2xl max-w-xs">
-        <h3 className="font-bold text-white text-xl mb-2">Sistema Circulatório</h3>
-        <p className="text-xs text-slate-400 mb-4">
-          O coração é uma bomba muscular que impulsiona o sangue por todo o corpo.
-        </p>
-        
-        <div className="mb-6">
-          <div className="flex justify-between mb-2">
-            <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Frequência Cardíaca</span>
-            <span className="text-white font-mono">{bpm} BPM</span>
+      <div className="absolute top-4 left-4 z-10 w-full max-w-xs pr-8">
+        <SimulationInfoCard title="Sistema Circulatório">
+          <p className="text-xs text-slate-400 mb-4">
+            O coração é uma bomba muscular que impulsiona o sangue por todo o corpo.
+          </p>
+          
+          <div className="mb-6">
+            <div className="flex justify-between mb-2">
+              <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Frequência Cardíaca</span>
+              <span className="text-white font-mono">{bpm} BPM</span>
+            </div>
+            <input 
+              type="range" 
+              min="40" 
+              max="180" 
+              value={bpm} 
+              onChange={(e) => setBpm(parseInt(e.target.value))}
+              className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+            />
+            <div className="flex justify-between text-[10px] text-slate-500 mt-1">
+              <span>Repouso</span>
+              <span>Exercício Intenso</span>
+            </div>
           </div>
-          <input 
-            type="range" 
-            min="40" 
-            max="180" 
-            value={bpm} 
-            onChange={(e) => setBpm(parseInt(e.target.value))}
-            className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500"
-          />
-          <div className="flex justify-between text-[10px] text-slate-500 mt-1">
-            <span>Repouso</span>
-            <span>Exercício Intenso</span>
-          </div>
-        </div>
 
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
-            <span className="text-[10px] text-slate-300">Sangue Oxigenado (Artérias)</span>
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
+              <span className="text-[10px] text-slate-300">Sangue Oxigenado (Artérias)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+              <span className="text-[10px] text-slate-300">Sangue Venoso (Veias)</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-            <span className="text-[10px] text-slate-300">Sangue Venoso (Veias)</span>
-          </div>
-        </div>
+        </SimulationInfoCard>
       </div>
 
       <Canvas camera={{ position: [0, 0, 10], fov: 45 }}>

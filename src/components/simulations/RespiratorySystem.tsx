@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Text, MeshDistortMaterial, Float, Points, PointMaterial } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 function BreathParticles() {
   const count = 100;
@@ -132,11 +133,12 @@ function Lungs() {
 export function RespiratorySystem() {
   return (
     <div className="flex flex-col h-full bg-slate-950 rounded-xl overflow-hidden relative">
-      <div className="absolute top-4 left-4 z-10 bg-slate-900/80 p-4 rounded-lg backdrop-blur-md border border-slate-700 shadow-2xl">
-        <h3 className="font-bold text-white mb-1">Sistema Respiratório</h3>
-        <p className="text-xs text-slate-400">
-          Observe a expansão dos pulmões e o movimento do diafragma durante a respiração.
-        </p>
+      <div className="absolute top-4 left-4 z-10 w-full max-w-sm pr-8">
+        <SimulationInfoCard title="Sistema Respiratório">
+          <p className="text-xs text-slate-400">
+            Observe a expansão dos pulmões e o movimento do diafragma durante a respiração.
+          </p>
+        </SimulationInfoCard>
       </div>
 
       <Canvas camera={{ position: [0, 0, 12], fov: 45 }}>

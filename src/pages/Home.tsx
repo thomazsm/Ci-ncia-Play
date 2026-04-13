@@ -57,7 +57,7 @@ export function Home() {
             <h2 className="text-2xl sm:text-3xl font-bold">Ensino Fundamental II</h2>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {ensinoFundamental.map((grade, index) => {
               const Icon = icons[index % icons.length];
               return (
@@ -69,22 +69,23 @@ export function Home() {
                   transition={{ delay: index * 0.1, duration: 0.4 }}
                 >
                   <Link to={`/grade/${grade.id}`} className="block h-full">
-                    <div className="h-full relative overflow-hidden rounded-3xl glass border border-white/40 p-6 sm:p-8 bento-hover group flex flex-col justify-between bg-gradient-to-br from-white/60 to-white/10 dark:from-slate-800/60 dark:to-slate-900/10">
-                      <Icon className="absolute -bottom-4 -right-4 w-32 h-32 text-primary/5 group-hover:text-primary/10 transition-colors duration-500 transform group-hover:scale-110 group-hover:-rotate-12" />
+                    <div className="h-full relative overflow-hidden rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 group flex flex-col justify-between hover:-translate-y-1">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-16 -mt-16 transition-transform duration-500 group-hover:scale-150" />
+                      <Icon className="absolute -bottom-4 -right-4 w-32 h-32 text-slate-100 dark:text-slate-800/50 group-hover:text-primary/5 transition-colors duration-500 transform group-hover:scale-110 group-hover:-rotate-12" />
                       
-                      <div>
-                        <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                      <div className="relative z-10">
+                        <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm">
                           <Icon className="w-6 h-6 text-primary group-hover:text-white" />
                         </div>
-                        <h3 className="text-xl sm:text-2xl font-bold mb-2 group-hover:text-primary transition-colors">
+                        <h3 className="text-xl sm:text-2xl font-bold mb-3 text-slate-900 dark:text-white group-hover:text-primary transition-colors">
                           {grade.title}
                         </h3>
-                        <p className="text-sm sm:text-base text-muted-foreground font-medium line-clamp-3">
+                        <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium line-clamp-3 leading-relaxed">
                           {grade.description}
                         </p>
                       </div>
 
-                      <div className="flex items-center text-sm font-bold text-primary mt-6">
+                      <div className="relative z-10 flex items-center text-sm font-bold text-primary mt-8 opacity-80 group-hover:opacity-100 transition-opacity">
                         Explorar módulos 
                         <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform duration-300" />
                       </div>
@@ -105,7 +106,7 @@ export function Home() {
             <h2 className="text-2xl sm:text-3xl font-bold">Ensino Médio</h2>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {ensinoMedio.map((grade, index) => {
               const Icon = icons[(index + 4) % icons.length];
               return (
@@ -117,22 +118,23 @@ export function Home() {
                   transition={{ delay: index * 0.1, duration: 0.4 }}
                 >
                   <Link to={`/grade/${grade.id}`} className="block h-full">
-                    <div className="h-full relative overflow-hidden rounded-3xl glass border border-white/40 p-6 sm:p-8 bento-hover group flex flex-col justify-between bg-gradient-to-br from-white/60 to-white/10 dark:from-slate-800/60 dark:to-slate-900/10">
-                      <Icon className="absolute -bottom-4 -right-4 w-32 h-32 text-emerald-500/5 group-hover:text-emerald-500/10 transition-colors duration-500 transform group-hover:scale-110 group-hover:-rotate-12" />
+                    <div className="h-full relative overflow-hidden rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500 group flex flex-col justify-between hover:-translate-y-1">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-500/10 to-transparent rounded-bl-full -mr-16 -mt-16 transition-transform duration-500 group-hover:scale-150" />
+                      <Icon className="absolute -bottom-4 -right-4 w-32 h-32 text-slate-100 dark:text-slate-800/50 group-hover:text-emerald-500/5 transition-colors duration-500 transform group-hover:scale-110 group-hover:-rotate-12" />
                       
-                      <div>
-                        <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-6 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300">
+                      <div className="relative z-10">
+                        <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-6 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300 shadow-sm">
                           <Icon className="w-6 h-6 text-emerald-500 group-hover:text-white" />
                         </div>
-                        <h3 className="text-xl sm:text-2xl font-bold mb-2 group-hover:text-emerald-500 transition-colors">
+                        <h3 className="text-xl sm:text-2xl font-bold mb-3 text-slate-900 dark:text-white group-hover:text-emerald-500 transition-colors">
                           {grade.title}
                         </h3>
-                        <p className="text-sm sm:text-base text-muted-foreground font-medium line-clamp-3">
+                        <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium line-clamp-3 leading-relaxed">
                           {grade.description}
                         </p>
                       </div>
 
-                      <div className="flex items-center text-sm font-bold text-emerald-500 mt-6">
+                      <div className="relative z-10 flex items-center text-sm font-bold text-emerald-500 mt-8 opacity-80 group-hover:opacity-100 transition-opacity">
                         Explorar módulos 
                         <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform duration-300" />
                       </div>

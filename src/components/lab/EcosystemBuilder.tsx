@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Leaf, Rabbit, Dog, Play, Pause, RotateCcw } from 'lucide-react';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 export function EcosystemBuilder() {
   const [plants, setPlants] = useState(20);
@@ -50,13 +51,48 @@ export function EcosystemBuilder() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-8 h-full bg-slate-900 rounded-2xl text-white">
-      <h2 className="text-3xl font-bold mb-2">Construtor de Ecossistemas</h2>
-      <p className="mb-8 opacity-80 font-medium text-center max-w-2xl">
-        Equilibre a cadeia alimentar. Se houver muitos predadores, as presas somem. Se não houver predadores, as presas destroem a vegetação!
-      </p>
+    <div className="flex flex-col items-center justify-center p-8 h-full bg-slate-900 rounded-2xl text-white relative">
+      <div className="absolute top-4 left-4 z-10 w-full max-w-md pr-8">
+        <SimulationInfoCard title="Construtor de Ecossistemas">
+          <p className="mb-4 opacity-80 font-medium text-sm">
+            Equilibre a cadeia alimentar. Se houver muitos predadores, as presas somem. Se não houver predadores, as presas destroem a vegetação!
+          </p>
+          <div className="flex flex-col gap-4">
+            <div className="bg-black/40 p-4 rounded-2xl border border-white/10 space-y-4">
+              <div className="flex justify-between items-center text-emerald-400 font-bold text-sm">
+                <span className="flex items-center gap-2"><Leaf size={16}/> Plantas</span>
+                <span>{plants}</span>
+              </div>
+              <div className="flex justify-between items-center text-blue-400 font-bold text-sm">
+                <span className="flex items-center gap-2"><Rabbit size={16}/> Coelhos (Presas)</span>
+                <span>{rabbits}</span>
+              </div>
+              <div className="flex justify-between items-center text-red-400 font-bold text-sm">
+                <span className="flex items-center gap-2"><Dog size={16}/> Lobos (Predadores)</span>
+                <span>{wolves}</span>
+              </div>
+            </div>
 
-      <div className="flex flex-col md:flex-row gap-8 w-full max-w-5xl">
+            <div className="flex gap-2">
+              <button 
+                onClick={() => setIsRunning(!isRunning)}
+                className={`flex-1 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors ${isRunning ? 'bg-amber-500 hover:bg-amber-600' : 'bg-emerald-500 hover:bg-emerald-600'}`}
+              >
+                {isRunning ? <><Pause size={18}/> Pausar</> : <><Play size={18}/> Iniciar</>}
+              </button>
+              <button 
+                onClick={reset}
+                className="px-4 py-3 bg-slate-700 hover:bg-slate-600 rounded-xl transition-colors"
+                title="Reiniciar"
+              >
+                <RotateCcw size={18} />
+              </button>
+            </div>
+          </div>
+        </SimulationInfoCard>
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-8 w-full max-w-5xl mt-16">
         
         {/* Simulation Area */}
         <div className="relative flex-1 h-96 bg-emerald-900/30 rounded-3xl border-4 border-emerald-800 overflow-hidden p-4">
@@ -92,36 +128,6 @@ export function EcosystemBuilder() {
 
         {/* Controls */}
         <div className="w-full md:w-72 space-y-6">
-          <div className="bg-black/40 p-6 rounded-2xl border border-white/10 space-y-4">
-            <div className="flex justify-between items-center text-emerald-400 font-bold">
-              <span className="flex items-center gap-2"><Leaf size={20}/> Plantas</span>
-              <span>{plants}</span>
-            </div>
-            <div className="flex justify-between items-center text-blue-400 font-bold">
-              <span className="flex items-center gap-2"><Rabbit size={20}/> Coelhos</span>
-              <span>{rabbits}</span>
-            </div>
-            <div className="flex justify-between items-center text-red-500 font-bold">
-              <span className="flex items-center gap-2"><Dog size={20}/> Lobos</span>
-              <span>{wolves}</span>
-            </div>
-          </div>
-
-          <div className="flex gap-4">
-            <button 
-              onClick={() => setIsRunning(!isRunning)}
-              className={`flex-1 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors ${isRunning ? 'bg-amber-600 hover:bg-amber-500' : 'bg-emerald-600 hover:bg-emerald-500'}`}
-            >
-              {isRunning ? <><Pause size={20}/> Pausar</> : <><Play size={20}/> Iniciar</>}
-            </button>
-            <button 
-              onClick={reset}
-              className="px-4 bg-slate-700 hover:bg-slate-600 rounded-xl transition-colors"
-            >
-              <RotateCcw size={20} />
-            </button>
-          </div>
-
           {!isRunning && day === 0 && (
             <div className="space-y-4">
               <p className="text-sm text-slate-400 font-bold uppercase">Adicionar manualmente:</p>

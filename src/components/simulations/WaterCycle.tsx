@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 export function WaterCycle() {
   const [stage, setStage] = useState<'evaporation' | 'condensation' | 'precipitation' | 'collection'>('collection');
@@ -18,14 +19,15 @@ export function WaterCycle() {
 
   return (
     <div className="flex flex-col h-full bg-sky-100 dark:bg-slate-950 rounded-xl overflow-hidden relative p-6 shadow-2xl">
-      <div className="absolute top-4 left-4 z-20 bg-white/90 dark:bg-slate-900/90 p-4 rounded-xl backdrop-blur-md shadow-lg border border-slate-200 dark:border-slate-700">
-        <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100 mb-3">Ciclo da Água</h3>
-        <div className="flex flex-col gap-2">
-          <button onClick={() => setStage('evaporation')} className={`text-left px-4 py-2 rounded-lg font-medium transition-all ${stage === 'evaporation' ? 'bg-amber-500 text-white shadow-[0_0_15px_rgba(245,158,11,0.5)]' : 'hover:bg-amber-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>1. Evaporação</button>
-          <button onClick={() => setStage('condensation')} className={`text-left px-4 py-2 rounded-lg font-medium transition-all ${stage === 'condensation' ? 'bg-slate-500 text-white shadow-[0_0_15px_rgba(100,116,139,0.5)]' : 'hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>2. Condensação</button>
-          <button onClick={() => setStage('precipitation')} className={`text-left px-4 py-2 rounded-lg font-medium transition-all ${stage === 'precipitation' ? 'bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 'hover:bg-indigo-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>3. Precipitação</button>
-          <button onClick={() => setStage('collection')} className={`text-left px-4 py-2 rounded-lg font-medium transition-all ${stage === 'collection' ? 'bg-cyan-500 text-white shadow-[0_0_15px_rgba(6,182,212,0.5)]' : 'hover:bg-cyan-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>4. Coleta</button>
-        </div>
+      <div className="absolute top-4 left-4 z-20">
+        <SimulationInfoCard title="Ciclo da Água">
+          <div className="flex flex-col gap-2">
+            <button onClick={() => setStage('evaporation')} className={`text-left px-4 py-2 rounded-lg font-medium transition-all ${stage === 'evaporation' ? 'bg-amber-500 text-white shadow-[0_0_15px_rgba(245,158,11,0.5)]' : 'hover:bg-amber-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>1. Evaporação</button>
+            <button onClick={() => setStage('condensation')} className={`text-left px-4 py-2 rounded-lg font-medium transition-all ${stage === 'condensation' ? 'bg-slate-500 text-white shadow-[0_0_15px_rgba(100,116,139,0.5)]' : 'hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>2. Condensação</button>
+            <button onClick={() => setStage('precipitation')} className={`text-left px-4 py-2 rounded-lg font-medium transition-all ${stage === 'precipitation' ? 'bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 'hover:bg-indigo-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>3. Precipitação</button>
+            <button onClick={() => setStage('collection')} className={`text-left px-4 py-2 rounded-lg font-medium transition-all ${stage === 'collection' ? 'bg-cyan-500 text-white shadow-[0_0_15px_rgba(6,182,212,0.5)]' : 'hover:bg-cyan-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>4. Coleta</button>
+          </div>
+        </SimulationInfoCard>
       </div>
 
       <div className="flex-1 relative mt-16 border-4 border-white/50 dark:border-slate-800 rounded-3xl overflow-hidden bg-gradient-to-b from-sky-400 to-sky-100 dark:from-slate-800 dark:to-slate-900 shadow-inner">

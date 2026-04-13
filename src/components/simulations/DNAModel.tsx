@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { EffectComposer, Bloom, DepthOfField } from '@react-three/postprocessing';
 import * as THREE from 'three';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 function DoubleHelix() {
   const groupRef = useRef<THREE.Group>(null);
@@ -73,14 +74,15 @@ function DoubleHelix() {
 export function DNAModel() {
   return (
     <div className="flex flex-col h-full bg-slate-950 rounded-xl overflow-hidden relative">
-      <div className="absolute top-4 left-4 z-10 bg-slate-900/80 p-4 rounded-lg backdrop-blur-md border border-slate-700 shadow-2xl">
-        <h3 className="font-bold text-white mb-2">Pares de Bases</h3>
-        <div className="flex flex-col gap-2 text-sm">
-          <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_10px_#ef4444]"></div><span className="text-slate-300">Adenina (A)</span></div>
-          <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-yellow-500 shadow-[0_0_10px_#eab308]"></div><span className="text-slate-300">Timina (T)</span></div>
-          <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_10px_#3b82f6]"></div><span className="text-slate-300">Citosina (C)</span></div>
-          <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></div><span className="text-slate-300">Guanina (G)</span></div>
-        </div>
+      <div className="absolute top-4 left-4 z-10">
+        <SimulationInfoCard title="Pares de Bases">
+          <div className="flex flex-col gap-2 text-sm">
+            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_10px_#ef4444]"></div><span className="text-slate-300">Adenina (A)</span></div>
+            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-yellow-500 shadow-[0_0_10px_#eab308]"></div><span className="text-slate-300">Timina (T)</span></div>
+            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_10px_#3b82f6]"></div><span className="text-slate-300">Citosina (C)</span></div>
+            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></div><span className="text-slate-300">Guanina (G)</span></div>
+          </div>
+        </SimulationInfoCard>
       </div>
 
       <Canvas camera={{ position: [0, 0, 18], fov: 45 }}>

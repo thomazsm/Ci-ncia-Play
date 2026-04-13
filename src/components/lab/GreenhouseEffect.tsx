@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sun, Cloud, Factory, Car } from 'lucide-react';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 export function GreenhouseEffect() {
   const [gases, setGases] = useState(50); // 0 to 100
@@ -8,11 +9,29 @@ export function GreenhouseEffect() {
   const temperature = 15 + (gases - 50) * 0.1; // Base 15C
 
   return (
-    <div className="flex flex-col items-center justify-center p-8 h-full bg-slate-900 rounded-2xl text-white">
-      <h2 className="text-3xl font-bold mb-2">Efeito Estufa</h2>
-      <p className="mb-8 opacity-80 font-medium">Aumente os gases de efeito estufa para ver o impacto na temperatura.</p>
+    <div className="flex flex-col items-center justify-center p-8 h-full bg-slate-900 rounded-2xl text-white relative">
+      <div className="absolute top-4 left-4 z-10 w-full max-w-sm pr-8">
+        <SimulationInfoCard title="Efeito Estufa">
+          <p className="mb-4 opacity-80 font-medium text-sm">Aumente os gases de efeito estufa para ver o impacto na temperatura.</p>
+          <div className="w-full space-y-4 bg-black/30 p-4 rounded-2xl">
+            <div className="flex justify-between items-center text-sm">
+              <span className="font-bold">Gases Estufa (CO2, CH4): {gases}%</span>
+              <span className={`text-xl font-black ${temperature > 17 ? 'text-red-500' : 'text-emerald-500'}`}>
+                {temperature.toFixed(1)} °C
+              </span>
+            </div>
+            <input 
+              type="range" 
+              min="0" max="100" 
+              value={gases} 
+              onChange={(e) => setGases(Number(e.target.value))}
+              className="w-full h-4 bg-slate-700 rounded-full appearance-none outline-none cursor-pointer"
+            />
+          </div>
+        </SimulationInfoCard>
+      </div>
 
-      <div className="relative w-full max-w-2xl h-80 bg-slate-800 rounded-3xl overflow-hidden border border-white/10 flex flex-col justify-end">
+      <div className="relative w-full max-w-2xl h-80 bg-slate-800 rounded-3xl overflow-hidden border border-white/10 flex flex-col justify-end mt-16">
         {/* Sun */}
         <Sun className="absolute top-4 left-4 w-16 h-16 text-yellow-400 animate-spin-slow" />
 
@@ -58,22 +77,6 @@ export function GreenhouseEffect() {
           <Factory className={`w-12 h-12 ${gases > 70 ? 'text-slate-400' : 'text-slate-600'}`} />
           <Car className={`w-8 h-8 ${gases > 50 ? 'text-red-400' : 'text-slate-600'}`} />
         </div>
-      </div>
-
-      <div className="w-full max-w-xl mt-8 space-y-4 bg-black/30 p-6 rounded-2xl">
-        <div className="flex justify-between items-center">
-          <span className="font-bold">Gases Estufa (CO2, CH4): {gases}%</span>
-          <span className={`text-2xl font-black ${temperature > 17 ? 'text-red-500' : 'text-emerald-500'}`}>
-            {temperature.toFixed(1)} °C
-          </span>
-        </div>
-        <input 
-          type="range" 
-          min="0" max="100" 
-          value={gases} 
-          onChange={(e) => setGases(Number(e.target.value))}
-          className="w-full h-4 bg-slate-700 rounded-full appearance-none outline-none cursor-pointer"
-        />
       </div>
     </div>
   );

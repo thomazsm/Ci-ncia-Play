@@ -4,7 +4,8 @@ import { OrbitControls, Float, Text, useGLTF, Points, PointMaterial } from '@rea
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Beaker, FlaskConical, Thermometer, Info } from 'lucide-react';
+import { Beaker, FlaskConical, Thermometer, Info, ArrowRight } from 'lucide-react';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 const EXPERIMENTS = [
   {
@@ -193,84 +194,82 @@ export function ChemistryLab() {
   return (
     <div className="flex flex-col h-full bg-slate-950 rounded-xl overflow-hidden relative">
       {/* UI Overlay */}
-      <div className="absolute top-4 left-4 z-10 bg-slate-900/90 p-6 rounded-2xl backdrop-blur-md border border-slate-700 shadow-2xl max-w-sm overflow-y-auto max-h-[90%] scrollbar-hide">
-        <h3 className="font-bold text-white text-xl mb-4 flex items-center gap-2">
-          <Beaker className="w-6 h-6 text-blue-400" /> Laboratório de Química
-        </h3>
-        
-        <div className="space-y-2 mb-6">
-          <div className="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-2">Escolha o Experimento</div>
-          <div className="grid grid-cols-1 gap-2">
-            {EXPERIMENTS.map((exp) => (
-              <button
-                key={exp.id}
-                onClick={() => handleSelect(exp)}
-                className={`text-left p-3 rounded-xl border transition-all ${
-                  selectedExp.id === exp.id 
-                    ? 'bg-blue-600/20 border-blue-500 text-white shadow-lg shadow-blue-500/10' 
-                    : 'bg-slate-800/40 border-slate-700 text-slate-400 hover:bg-slate-800'
-                }`}
-              >
-                <div className="text-xs font-bold">{exp.name}</div>
-                <div className="text-[10px] opacity-60 truncate">{exp.formula}</div>
-              </button>
-            ))}
+      <div className="absolute top-4 left-4 z-10 w-full max-w-sm pr-8">
+        <SimulationInfoCard title="Laboratório de Química">
+          <div className="space-y-2 mb-6">
+            <div className="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-2">Escolha o Experimento</div>
+            <div className="grid grid-cols-1 gap-2">
+              {EXPERIMENTS.map((exp) => (
+                <button
+                  key={exp.id}
+                  onClick={() => handleSelect(exp)}
+                  className={`text-left p-3 rounded-xl border transition-all ${
+                    selectedExp.id === exp.id 
+                      ? 'bg-blue-600/20 border-blue-500 text-white shadow-lg shadow-blue-500/10' 
+                      : 'bg-slate-800/40 border-slate-700 text-slate-400 hover:bg-slate-800'
+                  }`}
+                >
+                  <div className="text-xs font-bold">{exp.name}</div>
+                  <div className="text-[10px] opacity-60 truncate">{exp.formula}</div>
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="mb-6 bg-slate-800/50 p-4 rounded-xl border border-slate-700">
-          <p className="text-xs text-slate-300 leading-relaxed">{selectedExp.description}</p>
-        </div>
+          <div className="mb-6 bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+            <p className="text-xs text-slate-300 leading-relaxed">{selectedExp.description}</p>
+          </div>
 
-        <AnimatePresence mode="wait">
-          {step === 0 && (
-            <motion.div 
-              key="step0"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-            >
-              <button 
-                onClick={startReaction}
-                className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-900/20"
+          <AnimatePresence mode="wait">
+            {step === 0 && (
+              <motion.div 
+                key="step0"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
               >
-                Iniciar Reação
-              </button>
-            </motion.div>
-          )}
+                <button 
+                  onClick={startReaction}
+                  className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-900/20"
+                >
+                  Iniciar Reação
+                </button>
+              </motion.div>
+            )}
 
-          {step === 2 && (
-            <motion.div 
-              key="step2"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-            >
-              <div className="bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-xl mb-4">
-                <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm mb-2">
-                  <Info className="w-4 h-4" /> O que está acontecendo?
+            {step === 2 && (
+              <motion.div 
+                key="step2"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+              >
+                <div className="bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-xl mb-4">
+                  <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm mb-2">
+                    <Info className="w-4 h-4" /> O que está acontecendo?
+                  </div>
+                  <p className="text-[10px] text-slate-300 leading-relaxed">
+                    {selectedExp.info}
+                  </p>
                 </div>
-                <p className="text-[10px] text-slate-300 leading-relaxed">
-                  {selectedExp.info}
-                </p>
-              </div>
-              <button 
-                onClick={reset}
-                className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold transition-all"
-              >
-                Limpar e Reiniciar
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                <button 
+                  onClick={reset}
+                  className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold transition-all"
+                >
+                  Limpar e Reiniciar
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-        <div className="mt-6 pt-6 border-t border-slate-800">
-          <div className="flex items-center justify-between text-[10px] font-mono">
-            <span className="text-slate-500">{selectedExp.formula.split('→')[0]}</span>
-            <ArrowRight className="w-3 h-3 text-slate-700" />
-            <span className="text-blue-400">{selectedExp.formula.split('→')[1] || 'Reação'}</span>
+          <div className="mt-6 pt-6 border-t border-slate-800">
+            <div className="flex items-center justify-between text-[10px] font-mono">
+              <span className="text-slate-500">{selectedExp.formula.split('→')[0]}</span>
+              <ArrowRight className="w-3 h-3 text-slate-700" />
+              <span className="text-blue-400">{selectedExp.formula.split('→')[1] || 'Reação'}</span>
+            </div>
           </div>
-        </div>
+        </SimulationInfoCard>
       </div>
 
       <Canvas camera={{ position: [0, 2, 8], fov: 45 }}>

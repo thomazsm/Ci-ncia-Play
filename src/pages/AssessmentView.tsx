@@ -113,10 +113,11 @@ export function AssessmentView() {
   };
 
   const openInNewTab = (mode: 'full' | 'half') => {
-    const url = new URL(window.location.href);
-    url.searchParams.set('print', mode);
-    if (showAnswerKey) url.searchParams.set('answers', 'true');
-    window.open(url.toString(), '_blank');
+    // Em vez de abrir nova aba (que causa erro 404 no Netlify sem configuração),
+    // vamos usar a impressão direta na mesma página, mas com um pequeno truque
+    // para garantir que o DOM atualizou.
+    setShowPrintModal(false);
+    setPrintMode(mode);
   };
 
   if (!grade || !assessment) {
@@ -397,7 +398,7 @@ export function AssessmentView() {
                     <span className="font-bold text-lg text-primary">Folha Inteira</span>
                     <Printer className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
                   </div>
-                  <span className="text-sm text-muted-foreground mt-1">Abre em nova aba otimizada para impressão (1 por página).</span>
+                  <span className="text-sm text-muted-foreground mt-1">Impressão padrão (1 por página).</span>
                 </button>
                 
                 <button 
@@ -408,13 +409,13 @@ export function AssessmentView() {
                     <span className="font-bold text-lg text-emerald-600">Duas Partes (Economia)</span>
                     <Printer className="w-5 h-5 text-emerald-600 group-hover:scale-110 transition-transform" />
                   </div>
-                  <span className="text-sm text-muted-foreground mt-1">Abre em nova aba com 2 cópias por página para economizar papel.</span>
+                  <span className="text-sm text-muted-foreground mt-1">Imprime 2 cópias por página para economizar papel.</span>
                 </button>
               </div>
 
               <div className="pt-4 border-t border-border">
                 <p className="text-xs text-center text-muted-foreground">
-                  Ao clicar, uma nova aba será aberta e a janela de impressão aparecerá automaticamente.
+                  A janela de impressão do seu navegador será aberta.
                 </p>
               </div>
             </div>

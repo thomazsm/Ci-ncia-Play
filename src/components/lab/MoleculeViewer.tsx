@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 const molecules = [
   { 
@@ -52,19 +53,22 @@ export function MoleculeViewer() {
 
   return (
     <div className="flex flex-col md:flex-row min-h-full bg-slate-900 relative">
-      <div className="w-full md:w-64 p-4 bg-slate-800/80 backdrop-blur border-r border-slate-700 flex flex-col gap-2 z-10">
-        <h3 className="font-bold text-white mb-2">Moléculas</h3>
-        {molecules.map(mol => (
-          <button
-            key={mol.id}
-            onClick={() => setActiveMol(mol)}
-            className={`px-4 py-3 rounded-lg text-left transition-colors font-medium ${
-              activeMol.id === mol.id ? 'bg-primary text-primary-foreground' : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700'
-            }`}
-          >
-            {mol.name}
-          </button>
-        ))}
+      <div className="absolute top-4 left-4 z-10 w-full max-w-xs pr-8">
+        <SimulationInfoCard title="Moléculas">
+          <div className="flex flex-col gap-2">
+            {molecules.map(mol => (
+              <button
+                key={mol.id}
+                onClick={() => setActiveMol(mol)}
+                className={`px-4 py-3 rounded-lg text-left transition-colors font-medium ${
+                  activeMol.id === mol.id ? 'bg-primary text-primary-foreground' : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700'
+                }`}
+              >
+                {mol.name}
+              </button>
+            ))}
+          </div>
+        </SimulationInfoCard>
       </div>
       
       <div className="flex-1 relative min-h-[400px]">

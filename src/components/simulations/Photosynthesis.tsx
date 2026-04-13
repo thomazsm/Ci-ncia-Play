@@ -1,6 +1,7 @@
 import { useRef, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Droplets, Wind, Leaf, ArrowRight } from 'lucide-react';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 interface Molecule {
   id: number;
@@ -43,41 +44,40 @@ export function Photosynthesis() {
   return (
     <div className="flex flex-col h-full bg-emerald-950 rounded-xl overflow-hidden relative font-sans">
       {/* Header */}
-      <div className="absolute top-4 left-4 z-10 bg-slate-900/90 p-6 rounded-2xl backdrop-blur-md border border-emerald-500/30 shadow-2xl max-w-sm">
-        <h3 className="font-bold text-emerald-400 text-2xl mb-2 flex items-center gap-2">
-          <Leaf className="w-6 h-6" /> Fábrica de Oxigênio
-        </h3>
-        <p className="text-sm text-slate-300 leading-relaxed mb-4">
-          Ajude a planta a realizar a fotossíntese! Arraste água e CO₂ para dentro do cloroplasto.
-        </p>
-        
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <div className="bg-emerald-900/40 p-3 rounded-xl border border-emerald-500/20">
-            <div className="text-[10px] uppercase tracking-wider text-emerald-500 font-bold mb-1">Glicose Produzida</div>
-            <div className="text-2xl font-mono text-white">{glucoseCount}</div>
+      <div className="absolute top-4 left-4 z-10 w-full max-w-sm pr-8">
+        <SimulationInfoCard title="Fábrica de Oxigênio">
+          <p className="text-sm text-slate-300 leading-relaxed mb-4">
+            Ajude a planta a realizar a fotossíntese! Arraste água e CO₂ para dentro do cloroplasto.
+          </p>
+          
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="bg-emerald-900/40 p-3 rounded-xl border border-emerald-500/20">
+              <div className="text-[10px] uppercase tracking-wider text-emerald-500 font-bold mb-1">Glicose Produzida</div>
+              <div className="text-2xl font-mono text-white">{glucoseCount}</div>
+            </div>
+            <div className="bg-blue-900/40 p-3 rounded-xl border border-blue-500/20">
+              <div className="text-[10px] uppercase tracking-wider text-blue-500 font-bold mb-1">Oxigênio Liberado</div>
+              <div className="text-2xl font-mono text-white">{oxygenCount}</div>
+            </div>
           </div>
-          <div className="bg-blue-900/40 p-3 rounded-xl border border-blue-500/20">
-            <div className="text-[10px] uppercase tracking-wider text-blue-500 font-bold mb-1">Oxigênio Liberado</div>
-            <div className="text-2xl font-mono text-white">{oxygenCount}</div>
-          </div>
-        </div>
 
-        <div className="space-y-2">
-          <div className="flex justify-between text-xs text-slate-400">
-            <span>H₂O (Água): {waterIn}/6</span>
-            <span>CO₂ (Gás Carbônico): {co2In}/6</span>
+          <div className="space-y-2">
+            <div className="flex justify-between text-xs text-slate-400">
+              <span>H₂O (Água): {waterIn}/6</span>
+              <span>CO₂ (Gás Carbônico): {co2In}/6</span>
+            </div>
+            <div className="h-2 bg-slate-800 rounded-full overflow-hidden flex">
+              <motion.div 
+                className="bg-blue-500 h-full" 
+                animate={{ width: `${(waterIn / 6) * 50}%` }}
+              />
+              <motion.div 
+                className="bg-slate-400 h-full" 
+                animate={{ width: `${(co2In / 6) * 50}%` }}
+              />
+            </div>
           </div>
-          <div className="h-2 bg-slate-800 rounded-full overflow-hidden flex">
-            <motion.div 
-              className="bg-blue-500 h-full" 
-              animate={{ width: `${(waterIn / 6) * 50}%` }}
-            />
-            <motion.div 
-              className="bg-slate-400 h-full" 
-              animate={{ width: `${(co2In / 6) * 50}%` }}
-            />
-          </div>
-        </div>
+        </SimulationInfoCard>
       </div>
 
       {/* Main Stage */}

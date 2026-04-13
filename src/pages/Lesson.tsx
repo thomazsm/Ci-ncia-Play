@@ -83,9 +83,8 @@ export function Lesson() {
   }, []);
 
   const handlePrint = () => {
-    const url = new URL(window.location.href);
-    url.searchParams.set('print', 'true');
-    window.open(url.toString(), '_blank');
+    window.focus();
+    window.print();
   };
 
   // Update active tab when lesson changes

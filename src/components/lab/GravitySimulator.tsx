@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Play, Pause, RotateCcw } from 'lucide-react';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 export function GravitySimulator() {
   const [isRunning, setIsRunning] = useState(false);
@@ -163,28 +164,14 @@ export function GravitySimulator() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center p-8 min-h-full bg-slate-900 rounded-2xl text-white">
-      <h2 className="text-3xl font-bold mb-2">Simulador de Gravidade e Órbitas</h2>
-      <p className="mb-8 opacity-80 text-center max-w-2xl">
-        Ajuste a velocidade inicial do planeta. Se for muito devagar, ele cai na estrela. Se for muito rápido, ele escapa da órbita!
-      </p>
+    <div className="flex flex-col items-center justify-center p-8 min-h-full bg-slate-900 rounded-2xl text-white relative">
+      <div className="absolute top-4 left-4 z-10 w-full max-w-sm pr-8">
+        <SimulationInfoCard title="Simulador de Gravidade">
+          <p className="mb-6 text-sm text-slate-300">
+            Ajuste a velocidade inicial do planeta. Se for muito devagar, ele cai na estrela. Se for muito rápido, ele escapa da órbita!
+          </p>
 
-      <div className="flex flex-col md:flex-row gap-8 w-full max-w-5xl items-center justify-center">
-        
-        {/* Canvas Area */}
-        <div className="relative bg-slate-900 rounded-3xl border-4 border-slate-700 overflow-hidden shadow-2xl">
-          <canvas 
-            ref={canvasRef} 
-            width={500} 
-            height={400} 
-            className="block"
-          />
-        </div>
-
-        {/* Controls */}
-        <div className="w-full md:w-80 space-y-6">
-          
-          <div className="bg-black/40 p-6 rounded-2xl border border-white/10 space-y-6">
+          <div className="space-y-6">
             <div>
               <label className="flex justify-between text-sm font-bold text-slate-400 mb-2">
                 <span>Velocidade Inicial</span>
@@ -210,22 +197,32 @@ export function GravitySimulator() {
                 onChange={e => setPlanetMass(Number(e.target.value))} 
                 className="w-full accent-emerald-500" 
               />
-              <p className="text-xs text-slate-500 mt-2">A massa do planeta não afeta a órbita, apenas o visual (Princípio da Equivalência).</p>
+              <p className="text-xs text-slate-500 mt-2">A massa do planeta não afeta a órbita, apenas o visual.</p>
+            </div>
+
+            <div className="flex gap-4 pt-4 border-t border-slate-700">
+              <button 
+                onClick={() => setIsRunning(!isRunning)}
+                className={`flex-1 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors ${isRunning ? 'bg-amber-600 hover:bg-amber-500 text-white' : 'bg-emerald-600 hover:bg-emerald-500 text-white'}`}
+              >
+                {isRunning ? <><Pause size={20}/> Pausar</> : <><Play size={20}/> Iniciar</>}
+              </button>
+              <button onClick={reset} className="px-4 bg-slate-700 hover:bg-slate-600 text-white rounded-xl transition-colors">
+                <RotateCcw size={20} />
+              </button>
             </div>
           </div>
+        </SimulationInfoCard>
+      </div>
 
-          <div className="flex gap-4">
-            <button 
-              onClick={() => setIsRunning(!isRunning)}
-              className={`flex-1 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors ${isRunning ? 'bg-amber-600 hover:bg-amber-500' : 'bg-emerald-600 hover:bg-emerald-500'}`}
-            >
-              {isRunning ? <><Pause size={20}/> Pausar</> : <><Play size={20}/> Iniciar</>}
-            </button>
-            <button onClick={reset} className="px-4 bg-slate-700 hover:bg-slate-600 rounded-xl transition-colors">
-              <RotateCcw size={20} />
-            </button>
-          </div>
-
+      <div className="flex-1 w-full h-full relative flex items-center justify-center min-h-[400px]">
+        <div className="relative bg-slate-900 rounded-3xl border-4 border-slate-700 overflow-hidden shadow-2xl">
+          <canvas 
+            ref={canvasRef} 
+            width={500} 
+            height={400} 
+            className="block"
+          />
         </div>
       </div>
     </div>

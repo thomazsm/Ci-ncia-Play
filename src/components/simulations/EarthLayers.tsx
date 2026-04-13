@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Text, Float } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
+import { SimulationInfoCard } from '@/src/components/ui/SimulationInfoCard';
 
 function Layer({ radius, color, name, opacity = 1, transparent = false, emissiveIntensity = 0 }: any) {
   return (
@@ -63,29 +64,32 @@ function EarthModel() {
 export function EarthLayers() {
   return (
     <div className="flex flex-col h-full bg-slate-950 rounded-xl overflow-hidden relative">
-      <div className="absolute top-4 left-4 z-10 bg-slate-900/80 p-4 rounded-lg backdrop-blur-md border border-slate-700 shadow-2xl">
-        <h3 className="font-bold text-white mb-1">Camadas da Terra</h3>
-        <p className="text-xs text-slate-400">
-          Explore a estrutura interna do nosso planeta, do núcleo à crosta.
-        </p>
+      <div className="absolute top-4 left-4 z-10">
+        <SimulationInfoCard title="Camadas da Terra">
+          <p>
+            Explore a estrutura interna do nosso planeta, do núcleo à crosta.
+          </p>
+        </SimulationInfoCard>
       </div>
 
-      <Canvas camera={{ position: [0, 5, 15], fov: 45 }}>
-        <color attach="background" args={['#020617']} />
-        <ambientLight intensity={0.2} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
-        <pointLight position={[0, 0, 0]} intensity={2} color="#fef08a" />
-        
-        <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-          <EarthModel />
-        </Float>
+      <div className="flex-1 w-full h-full min-h-[400px]">
+        <Canvas camera={{ position: [0, 5, 15], fov: 45 }}>
+          <color attach="background" args={['#020617']} />
+          <ambientLight intensity={0.2} />
+          <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
+          <pointLight position={[0, 0, 0]} intensity={2} color="#fef08a" />
+          
+          <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
+            <EarthModel />
+          </Float>
 
-        <OrbitControls enablePan={false} maxDistance={25} minDistance={5} />
-        
-        <EffectComposer>
-          <Bloom luminanceThreshold={1} mipmapBlur intensity={1.5} />
-        </EffectComposer>
-      </Canvas>
+          <OrbitControls enablePan={false} maxDistance={25} minDistance={5} />
+          
+          <EffectComposer>
+            <Bloom luminanceThreshold={1} mipmapBlur intensity={1.5} />
+          </EffectComposer>
+        </Canvas>
+      </div>
     </div>
   );
 }
