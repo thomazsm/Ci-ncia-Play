@@ -69,9 +69,23 @@ export function Lesson() {
   const [activeTab, setActiveTab] = useState<'lab' | 'theory'>(lesson?.type === 'text' ? 'theory' : 'lab');
   const [isFullscreen, setIsFullscreen] = useState(false);
 
+  // Check for print parameter on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('print') === 'true') {
+      setActiveTab('theory');
+      const timer = setTimeout(() => {
+        window.focus();
+        window.print();
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   const handlePrint = () => {
-    window.focus();
-    window.print();
+    const url = new URL(window.location.href);
+    url.searchParams.set('print', 'true');
+    window.open(url.toString(), '_blank');
   };
 
   // Update active tab when lesson changes

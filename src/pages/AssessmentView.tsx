@@ -68,6 +68,19 @@ export function AssessmentView() {
   const [showPrintModal, setShowPrintModal] = useState(false);
   const [showAnswerKey, setShowAnswerKey] = useState(false);
 
+  // Check for print parameter on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const printParam = params.get('print');
+    const bimesterParam = params.get('bimester');
+    const answersParam = params.get('answers');
+
+    if (printParam === 'full' || printParam === 'half') {
+      if (answersParam === 'true') setShowAnswerKey(true);
+      setPrintMode(printParam as 'full' | 'half');
+    }
+  }, []);
+
   useEffect(() => {
     if (printMode !== 'none') {
       // Pequeno delay para garantir que o conteúdo de impressão foi renderizado no DOM
@@ -77,15 +90,18 @@ export function AssessmentView() {
           window.print();
         } catch (e) {
           console.error("Erro ao tentar imprimir:", e);
-          alert("Não foi possível abrir a janela de impressão. Tente abrir o app em uma nova aba.");
         }
         
-        // Reseta o modo de impressão após um tempo
-        const resetTimer = setTimeout(() => {
-          setPrintMode('none');
-        }, 1000);
-        return () => clearTimeout(resetTimer);
-      }, 500);
+        // Se estivermos em uma aba de impressão (via URL param), não resetamos o modo
+        // para permitir que o usuário tente imprimir novamente se falhar
+        const params = new URLSearchParams(window.location.search);
+        if (!params.get('print')) {
+          const resetTimer = setTimeout(() => {
+            setPrintMode('none');
+          }, 1000);
+          return () => clearTimeout(resetTimer);
+        }
+      }, 800);
       
       return () => clearTimeout(printTimer);
     }
@@ -96,8 +112,11 @@ export function AssessmentView() {
     setPrintMode(mode);
   };
 
-  const openInNewTab = () => {
-    window.open(window.location.href, '_blank');
+  const openInNewTab = (mode: 'full' | 'half') => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('print', mode);
+    if (showAnswerKey) url.searchParams.set('answers', 'true');
+    window.open(url.toString(), '_blank');
   };
 
   if (!grade || !assessment) {
@@ -369,29 +388,34 @@ export function AssessmentView() {
             </div>
             
             <div className="space-y-4">
-              <button 
-                onClick={() => handlePrint('full')}
-                className="w-full flex flex-col items-start p-4 rounded-2xl border-2 border-transparent bg-secondary/50 hover:bg-secondary hover:border-primary/30 transition-all text-left"
-              >
-                <span className="font-bold text-lg">Folha Inteira</span>
-                <span className="text-sm text-muted-foreground mt-1">Impressão padrão, uma avaliação por página com fonte maior.</span>
-              </button>
-              
-              <button 
-                onClick={() => handlePrint('half')}
-                className="w-full flex flex-col items-start p-4 rounded-2xl border-2 border-transparent bg-secondary/50 hover:bg-secondary hover:border-primary/30 transition-all text-left"
-              >
-                <span className="font-bold text-lg">Duas Partes (Economia)</span>
-                <span className="text-sm text-muted-foreground mt-1">Divide a folha ao meio (duas cópias por página) para economizar papel. Ideal para cortar ao meio.</span>
-              </button>
+              <div className="grid grid-cols-1 gap-3">
+                <button 
+                  onClick={() => openInNewTab('full')}
+                  className="w-full flex flex-col items-start p-4 rounded-2xl border-2 border-primary/20 bg-primary/5 hover:bg-primary/10 hover:border-primary/40 transition-all text-left group"
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <span className="font-bold text-lg text-primary">Folha Inteira</span>
+                    <Printer className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
+                  </div>
+                  <span className="text-sm text-muted-foreground mt-1">Abre em nova aba otimizada para impressão (1 por página).</span>
+                </button>
+                
+                <button 
+                  onClick={() => openInNewTab('half')}
+                  className="w-full flex flex-col items-start p-4 rounded-2xl border-2 border-emerald-500/20 bg-emerald-500/5 hover:bg-emerald-500/10 hover:border-emerald-500/40 transition-all text-left group"
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <span className="font-bold text-lg text-emerald-600">Duas Partes (Economia)</span>
+                    <Printer className="w-5 h-5 text-emerald-600 group-hover:scale-110 transition-transform" />
+                  </div>
+                  <span className="text-sm text-muted-foreground mt-1">Abre em nova aba com 2 cópias por página para economizar papel.</span>
+                </button>
+              </div>
 
               <div className="pt-4 border-t border-border">
-                <p className="text-xs text-muted-foreground mb-3">
-                  <span className="font-bold text-amber-500">Dica:</span> Se a janela de impressão não abrir, use o botão abaixo para abrir em uma nova aba.
+                <p className="text-xs text-center text-muted-foreground">
+                  Ao clicar, uma nova aba será aberta e a janela de impressão aparecerá automaticamente.
                 </p>
-                <Button variant="outline" className="w-full" onClick={openInNewTab}>
-                  Abrir em Nova Aba para Imprimir
-                </Button>
               </div>
             </div>
           </motion.div>
