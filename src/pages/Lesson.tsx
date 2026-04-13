@@ -4,7 +4,7 @@ import { curriculum } from '@/src/data/curriculum';
 import { lessonDetails } from '@/src/data/lessonDetails';
 import { theoryContent } from '@/src/data/theory';
 import { Button } from '@/src/components/ui/button';
-import { ChevronLeft, Info, Target, Lightbulb, BookOpen, FlaskConical, Maximize2, Minimize2 } from 'lucide-react';
+import { ChevronLeft, Info, Target, Lightbulb, BookOpen, FlaskConical, Maximize2, Minimize2, Printer } from 'lucide-react';
 import { SolarSystem } from '@/src/components/simulations/SolarSystem';
 import { EarthLayers } from '@/src/components/simulations/EarthLayers';
 import { AtomModel } from '@/src/components/simulations/AtomModel';
@@ -68,6 +68,11 @@ export function Lesson() {
 
   const [activeTab, setActiveTab] = useState<'lab' | 'theory'>(lesson?.type === 'text' ? 'theory' : 'lab');
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const handlePrint = () => {
+    window.focus();
+    window.print();
+  };
 
   // Update active tab when lesson changes
   useEffect(() => {
@@ -256,18 +261,31 @@ export function Lesson() {
               ? "fixed inset-0 z-[100] bg-black flex flex-col" 
               : "flex-1 bg-black rounded-xl overflow-y-auto overflow-x-hidden relative shadow-lg border"
           }>
-            {/* Fullscreen Toggle Button */}
-            {activeTab !== 'theory' && (
-              <Button
-                variant="secondary"
-                size="icon"
-                className="absolute top-4 right-4 z-50 rounded-full bg-white/10 hover:bg-white/20 text-white border-white/20 backdrop-blur-md"
-                onClick={() => setIsFullscreen(!isFullscreen)}
-                title={isFullscreen ? "Recolher simulação" : "Expandir simulação"}
-              >
-                {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
-              </Button>
-            )}
+            {/* Action Buttons */}
+            <div className="absolute top-4 right-4 z-50 flex gap-2 print:hidden">
+              {activeTab === 'theory' && (
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border shadow-sm"
+                  onClick={handlePrint}
+                  title="Imprimir conteúdo teórico"
+                >
+                  <Printer className="w-5 h-5" />
+                </Button>
+              )}
+              {activeTab !== 'theory' && (
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="rounded-full bg-white/10 hover:bg-white/20 text-white border-white/20 backdrop-blur-md"
+                  onClick={() => setIsFullscreen(!isFullscreen)}
+                  title={isFullscreen ? "Recolher simulação" : "Expandir simulação"}
+                >
+                  {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
+                </Button>
+              )}
+            </div>
 
             {activeTab === 'theory' && lessonId && theoryContent[lessonId] ? (
               <div className="h-full w-full bg-white dark:bg-slate-900 overflow-y-auto">

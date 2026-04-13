@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { curriculum } from '@/src/data/curriculum';
 import { Button } from '@/src/components/ui/button';
-import { ChevronLeft, PlayCircle, Box, FileText, ArrowRight, ClipboardCheck, BookOpen } from 'lucide-react';
+import { ChevronLeft, PlayCircle, Box, FileText, ArrowRight, ClipboardCheck, BookOpen, Printer } from 'lucide-react';
 
 export function GradeDashboard() {
   const { gradeId } = useParams();
@@ -157,9 +157,23 @@ export function GradeDashboard() {
                   </p>
                 </div>
 
-                <div className="flex items-center text-sm font-bold text-primary mt-8">
-                  Iniciar Avaliação 
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform duration-300" />
+                <div className="flex items-center justify-between mt-8">
+                  <div className="flex items-center text-sm font-bold text-primary">
+                    Iniciar Avaliação 
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform duration-300" />
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="rounded-full hover:bg-primary/10 text-primary"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.open(`/grade/${grade.id}/assessment/${bimester}`, '_blank');
+                    }}
+                  >
+                    <Printer className="w-4 h-4 mr-2" />
+                    Imprimir
+                  </Button>
                 </div>
               </div>
             </Link>

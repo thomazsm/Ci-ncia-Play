@@ -70,17 +70,34 @@ export function AssessmentView() {
 
   useEffect(() => {
     if (printMode !== 'none') {
-      window.print();
-      const timer = setTimeout(() => {
-        setPrintMode('none');
-      }, 1000);
-      return () => clearTimeout(timer);
+      // Pequeno delay para garantir que o conteúdo de impressão foi renderizado no DOM
+      const printTimer = setTimeout(() => {
+        try {
+          window.focus();
+          window.print();
+        } catch (e) {
+          console.error("Erro ao tentar imprimir:", e);
+          alert("Não foi possível abrir a janela de impressão. Tente abrir o app em uma nova aba.");
+        }
+        
+        // Reseta o modo de impressão após um tempo
+        const resetTimer = setTimeout(() => {
+          setPrintMode('none');
+        }, 1000);
+        return () => clearTimeout(resetTimer);
+      }, 500);
+      
+      return () => clearTimeout(printTimer);
     }
   }, [printMode]);
 
   const handlePrint = (mode: 'full' | 'half') => {
     setShowPrintModal(false);
     setPrintMode(mode);
+  };
+
+  const openInNewTab = () => {
+    window.open(window.location.href, '_blank');
   };
 
   if (!grade || !assessment) {
@@ -148,6 +165,10 @@ export function AssessmentView() {
           <div className="flex justify-center gap-4 pt-4">
             <Button variant="outline" onClick={() => navigate(`/grade/${gradeId}`)}>
               Voltar para a Série
+            </Button>
+            <Button variant="outline" onClick={() => setShowPrintModal(true)}>
+              <Printer className="w-4 h-4 mr-2" />
+              Imprimir Resultado
             </Button>
             <Button onClick={() => {
               setSelectedAnswers({});
@@ -363,6 +384,15 @@ export function AssessmentView() {
                 <span className="font-bold text-lg">Duas Partes (Economia)</span>
                 <span className="text-sm text-muted-foreground mt-1">Divide a folha ao meio (duas cópias por página) para economizar papel. Ideal para cortar ao meio.</span>
               </button>
+
+              <div className="pt-4 border-t border-border">
+                <p className="text-xs text-muted-foreground mb-3">
+                  <span className="font-bold text-amber-500">Dica:</span> Se a janela de impressão não abrir, use o botão abaixo para abrir em uma nova aba.
+                </p>
+                <Button variant="outline" className="w-full" onClick={openInNewTab}>
+                  Abrir em Nova Aba para Imprimir
+                </Button>
+              </div>
             </div>
           </motion.div>
         </div>
