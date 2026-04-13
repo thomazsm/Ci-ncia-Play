@@ -1,11 +1,40 @@
-<div align="center">
+# CiênciaPlay - Science Complemento 🧬🧪❤️
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Um aplicativo interativo desenvolvido para complementar as aulas de ciências, proporcionando uma experiência visual e prática através de simulações 3D e laboratórios virtuais.
 
-  <h1>Built with AI Studio</h2>
+## 🚀 Funcionalidades
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+### 🧪 Laboratório de Química
+- **Vinagre + Bicarbonato:** Reação clássica de liberação de CO₂.
+- **Pasta de Dente de Elefante:** Decomposição exotérmica de peróxido de hidrogênio.
+- **Indicador de pH:** Mudança de cor com repolho roxo.
+- **Precipitação:** Formação de sólidos insolúveis.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+### 🧬 Biologia e Corpo Humano
+- **Sistema Circulatório:** Coração 3D pulsante com controle de BPM e fluxo sanguíneo.
+- **Sistema Digestório:** Simulação peristáltica reativa.
+- **Sistema Respiratório:** Mecânica pulmonar em 3D.
+- **Divisão Celular:** Simulação de Mitose com membrana orgânica.
+- **Modelo de DNA:** Estrutura helicoidal interativa.
 
-</div>
+### ⚛️ Física e Astronomia
+- **Modelo Atômico:** Construtor de átomos (Hidrogênio ao Oxigênio) com nuvem de probabilidade.
+- **Sistema Solar:** Órbitas e planetas em escala.
+- **Fases da Lua:** Mecânica orbital Terra-Lua.
+- **Placas Tectônicas:** Movimentos divergentes e convergentes.
+
+## 🛠️ Tecnologias Utilizadas
+
+- **React + Vite**
+- **Three.js + React Three Fiber** (Simulações 3D)
+- **Framer Motion** (Animações de UI)
+- **Tailwind CSS** (Estilização)
+- **Lucide React** (Ícones)
+
+## 👤 Autor
+
+Desenvolvido por **Thomaz**
+- Email: thomaz.xis@gmail.com
+
+---
+*Este projeto foi criado para inspirar alunos e professores, tornando a ciência mais acessível e divertida.*
