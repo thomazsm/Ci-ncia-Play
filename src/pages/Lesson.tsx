@@ -302,7 +302,7 @@ export function Lesson() {
             </div>
 
             {activeTab === 'theory' && lessonId && theoryContent[lessonId] ? (
-              <div className="h-full w-full bg-white dark:bg-slate-900 overflow-y-auto">
+              <div className="h-full w-full bg-white dark:bg-slate-900 overflow-y-auto print:font-serif print:text-black print:p-0">
                 {theoryContent[lessonId]}
               </div>
             ) : (

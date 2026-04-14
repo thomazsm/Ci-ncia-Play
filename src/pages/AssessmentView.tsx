@@ -7,48 +7,72 @@ import { Button } from '@/src/components/ui/button';
 import { ChevronLeft, CheckCircle2, XCircle, ArrowRight, RotateCcw, Printer, X, ListChecks } from 'lucide-react';
 
 const PrintContent = ({ assessment, grade, compact, showAnswers }: { assessment: any, grade: any, compact: boolean, showAnswers: boolean }) => (
-  <div className={`text-black bg-white ${compact ? 'text-xs' : 'text-sm'}`}>
-    <div className="text-center border-b border-black pb-4 mb-4">
-      <h1 className={`${compact ? 'text-lg' : 'text-2xl'} font-bold uppercase`}>{grade.title}</h1>
-      <h2 className={`${compact ? 'text-base' : 'text-xl'} font-semibold mt-1`}>
-        {assessment.title} {showAnswers ? '- GABARITO' : ''}
-      </h2>
+  <div className={`text-black bg-white font-serif ${compact ? 'text-xs' : 'text-sm'}`}>
+    <div className="text-center border-b-2 border-black pb-4 mb-6">
+      <h1 className="text-2xl font-bold uppercase mb-1">Escola de Ciências - Laboratório 3D</h1>
+      <h2 className="text-xl font-semibold mb-4">Avaliação de Ciências</h2>
+      
       {!showAnswers && (
-        <div className="mt-4 flex justify-between items-end text-left">
-          <div className="space-y-2 flex-1">
-            <p>Nome: __________________________________________________</p>
-            <p>Turma: _________ Data: ____/____/______</p>
+        <div className="grid grid-cols-2 gap-y-3 text-left mt-4 border-t border-black pt-4">
+          <div className="col-span-2">
+            <p className="border-b border-black pb-1">Aluno(a): __________________________________________________________________________</p>
           </div>
-          <div className="border border-black p-2 w-24 text-center h-16 flex flex-col justify-between">
-            <span className="text-xs">Nota</span>
-            <span></span>
+          <div>
+            <p className="border-b border-black pb-1">Série: <span className="font-bold">{grade.title}</span></p>
           </div>
+          <div>
+            <p className="border-b border-black pb-1">Data: ____/____/______</p>
+          </div>
+          <div>
+            <p className="border-b border-black pb-1">Professor(a): ___________________________</p>
+          </div>
+          <div className="flex justify-between items-center">
+            <p className="border-b border-black pb-1 flex-1 mr-4">Nº: _________</p>
+            <div className="border-2 border-black p-2 w-20 text-center h-12 flex flex-col justify-between">
+              <span className="text-[10px] uppercase font-bold leading-none">Nota</span>
+              <span className="text-lg"></span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showAnswers && (
+        <div className="mt-2 p-2 bg-gray-100 border border-black inline-block px-8">
+          <h3 className="font-bold uppercase tracking-widest">Gabarito do Professor</h3>
+          <p className="text-xs mt-1">{grade.title} - {assessment.title}</p>
         </div>
       )}
     </div>
 
-    <div className={`space-y-${compact ? '4' : '6'}`}>
+    <div className={`space-y-${compact ? '4' : '8'}`}>
       {assessment.questions.map((q: any, index: number) => (
         <div key={q.id} className="break-inside-avoid">
-          <p className="font-bold mb-2">{index + 1}. {q.text}</p>
-          <div className="space-y-1 pl-4">
+          <p className="font-bold mb-3 leading-relaxed">
+            {index + 1}. {q.text}
+          </p>
+          <div className="space-y-2 pl-6">
             {q.options.map((opt: string, optIndex: number) => {
               const isCorrect = showAnswers && optIndex === q.correctAnswer;
               return (
-                <div key={optIndex} className={`flex gap-2 ${isCorrect ? 'font-bold' : ''}`}>
-                  <span>({isCorrect ? ' X ' : ` ${String.fromCharCode(97 + optIndex)} `})</span>
-                  <span>{opt}</span>
+                <div key={optIndex} className={`flex gap-3 items-start ${isCorrect ? 'font-bold underline' : ''}`}>
+                  <span className="shrink-0">{String.fromCharCode(97 + optIndex)})</span>
+                  <span className="leading-snug">{opt}</span>
                 </div>
               );
             })}
           </div>
           {showAnswers && (
-            <div className="mt-2 text-gray-600 italic text-xs">
-              Explicação: {q.explanation}
+            <div className="mt-3 text-gray-700 italic text-xs border-l-2 border-gray-300 pl-3 py-1">
+              <span className="font-bold not-italic">Explicação:</span> {q.explanation}
             </div>
           )}
         </div>
       ))}
+    </div>
+
+    <div className="mt-12 pt-8 border-t border-gray-200 text-[10px] text-gray-400 flex justify-between italic">
+      <span>{assessment.title} • {grade.title}</span>
+      <span>Gerado via Laboratório 3D - Plataforma de Ciências</span>
     </div>
   </div>
 );
@@ -67,6 +91,7 @@ export function AssessmentView() {
   const [printMode, setPrintMode] = useState<'none' | 'full' | 'half'>('none');
   const [showPrintModal, setShowPrintModal] = useState(false);
   const [showAnswerKey, setShowAnswerKey] = useState(false);
+  const [includeAnswersInPrint, setIncludeAnswersInPrint] = useState(false);
 
   // Check for print parameter on mount
   useEffect(() => {
@@ -116,10 +141,15 @@ export function AssessmentView() {
     setShowPrintModal(false);
     const url = new URL(window.location.href);
     url.searchParams.set('print', mode);
-    if (showAnswerKey) {
+    if (includeAnswersInPrint) {
       url.searchParams.set('answers', 'true');
     }
     window.open(url.toString(), '_blank');
+  };
+
+  const handleOpenPrintModal = () => {
+    setIncludeAnswersInPrint(showAnswerKey);
+    setShowPrintModal(true);
   };
 
   if (!grade || !assessment) {
@@ -188,7 +218,7 @@ export function AssessmentView() {
             <Button variant="outline" onClick={() => navigate(`/grade/${gradeId}`)}>
               Voltar para a Série
             </Button>
-            <Button variant="outline" onClick={() => setShowPrintModal(true)}>
+            <Button variant="outline" onClick={handleOpenPrintModal}>
               <Printer className="w-4 h-4 mr-2" />
               Imprimir Resultado
             </Button>
@@ -265,7 +295,7 @@ export function AssessmentView() {
               <ListChecks className="w-4 h-4 mr-2" />
               {showAnswerKey ? 'Ocultar Gabarito' : 'Ver Gabarito'}
             </Button>
-            <Button variant="outline" onClick={() => setShowPrintModal(true)} className="shrink-0">
+            <Button variant="outline" onClick={handleOpenPrintModal} className="shrink-0">
               <Printer className="w-4 h-4 mr-2" />
               Imprimir {showAnswerKey ? 'Gabarito' : ''}
             </Button>
@@ -384,10 +414,28 @@ export function AssessmentView() {
             className="bg-background p-6 rounded-3xl shadow-xl max-w-md w-full border border-border mx-4"
           >
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-bold">Opções de Impressão {showAnswerKey ? '(Gabarito)' : ''}</h3>
+              <h3 className="text-xl font-bold">Opções de Impressão</h3>
               <Button variant="ghost" size="icon" onClick={() => setShowPrintModal(false)}>
                 <X className="w-5 h-5" />
               </Button>
+            </div>
+
+            <div className="mb-6 p-4 rounded-2xl bg-primary/5 border border-primary/10">
+              <p className="text-sm font-medium mb-3 text-primary">O que você deseja imprimir?</p>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => setIncludeAnswersInPrint(false)}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${!includeAnswersInPrint ? 'bg-primary text-white shadow-md' : 'bg-secondary text-muted-foreground hover:bg-secondary/80'}`}
+                >
+                  Apenas a Prova
+                </button>
+                <button
+                  onClick={() => setIncludeAnswersInPrint(true)}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${includeAnswersInPrint ? 'bg-primary text-white shadow-md' : 'bg-secondary text-muted-foreground hover:bg-secondary/80'}`}
+                >
+                  Prova + Gabarito
+                </button>
+              </div>
             </div>
             
             <div className="space-y-4">
